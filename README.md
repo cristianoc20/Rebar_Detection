@@ -1,5 +1,6 @@
 - 本方案线上baseline取得0.98336,作为YOLO v3这样的one-stage算法算是还可以，由于参数都是粗调预计最后结果还能有千分位的提升，欢迎各位尝试，有问题可以提issue。
 - 具体运行操作见YunYang的仓库：https://github.com/YunYang1994/tensorflow-yolov3
+- 比赛链接：https://www.datafountain.cn/competitions/332
 ### 提高精度
 - 这部分主要从**数据、先验框（anchor box）、模型**三方面入手改进。
 ## 数据改进
