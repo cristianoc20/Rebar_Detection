@@ -18,10 +18,10 @@ import tensorflow as tf
 from PIL import Image
 
 return_elements = ["input/input_data:0", "pred_sbbox/concat_2:0", "pred_mbbox/concat_2:0", "pred_lbbox/concat_2:0"]
-pb_file         = "./yolov3_coco.pb"
-image_path      = "./docs/images/road.jpeg"
-num_classes     = 80
-input_size      = 416
+pb_file         = "./yolov3_96_coco.pb"
+image_path      = "./0C006B5C.jpg"
+num_classes     = 1
+input_size      = 544
 graph           = tf.Graph()
 
 original_image = cv2.imread(image_path)
@@ -41,12 +41,16 @@ with tf.Session(graph=graph) as sess:
 pred_bbox = np.concatenate([np.reshape(pred_sbbox, (-1, 5 + num_classes)),
                             np.reshape(pred_mbbox, (-1, 5 + num_classes)),
                             np.reshape(pred_lbbox, (-1, 5 + num_classes))], axis=0)
-
-bboxes = utils.postprocess_boxes(pred_bbox, original_image_size, input_size, 0.3)
-bboxes = utils.nms(bboxes, 0.45, method='nms')
+print(pred_bbox)
+bboxes = utils.nms(pred_bbox, 0.45, method='soft-nms')
+bboxes = utils.postprocess_boxes(pred_bbox, original_image_size, input_size, 0.6)
+#bboxes = utils.nms(bboxes, 0.45, method='nms')
 image = utils.draw_bbox(original_image, bboxes)
+#image = Image.fromarray(image).resize((2666,2000),Image.ANTIALIAS)
+#image = cv2.resize(image,(2666,2000))
 image = Image.fromarray(image)
 image.show()
+image.save('a.jpg')
 
 
 

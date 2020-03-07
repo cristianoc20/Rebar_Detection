@@ -47,13 +47,14 @@ class YoloTest(object):
             ema_obj = tf.train.ExponentialMovingAverage(self.moving_ave_decay)
 
         self.sess  = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
-        self.saver = tf.train.Saver(ema_obj.variables_to_restore())
+        #self.saver = tf.train.Saver(ema_obj.variables_to_restore())
+        self.saver = tf.train.Saver()
         self.saver.restore(self.sess, self.weight_file)
 
     def predict(self, image):
 
         org_image = np.copy(image)
-        org_h, org_w, _ = org_image.shape
+        org_h, org_w, _ = org_image.shape[:3]
 
         image_data = utils.image_preporcess(image, [self.input_size, self.input_size])
         image_data = image_data[np.newaxis, ...]
@@ -65,13 +66,12 @@ class YoloTest(object):
                 self.trainable: False
             }
         )
-
         pred_bbox = np.concatenate([np.reshape(pred_sbbox, (-1, 5 + self.num_classes)),
                                     np.reshape(pred_mbbox, (-1, 5 + self.num_classes)),
                                     np.reshape(pred_lbbox, (-1, 5 + self.num_classes))], axis=0)
+        print(pred_bbox)
         bboxes = utils.postprocess_boxes(pred_bbox, (org_h, org_w), self.input_size, self.score_threshold)
         bboxes = utils.nms(bboxes, self.iou_threshold)
-
         return bboxes
 
     def evaluate(self):
@@ -107,7 +107,7 @@ class YoloTest(object):
                         xmin, ymin, xmax, ymax = list(map(str, bboxes_gt[i]))
                         bbox_mess = ' '.join([class_name, xmin, ymin, xmax, ymax]) + '\n'
                         f.write(bbox_mess)
-                        print('\t' + str(bbox_mess).strip())
+                        #print('\t' + str(bbox_mess).strip())
                 print('=> predict result of %s:' % image_name)
                 predict_result_path = os.path.join(predicted_dir_path, str(num) + '.txt')
                 bboxes_pr = self.predict(image)

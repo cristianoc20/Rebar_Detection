@@ -1,145 +1,46 @@
-# [TensorFlow2.0-Examples/4-Object_Detection/YOLOV3](https://github.com/YunYang1994/TensorFlow2.0-Examples/tree/master/4-Object_Detection/YOLOV3)
-
-## Please install tensorflow-gpu 1.11.0 !  Since Tensorflow is fucking ridiculous !
-
-## part 1. Introduction [[代码剖析]](https://github.com/YunYang1994/ai-notebooks/blob/master/YOLOv3.md)
-
-Implementation of YOLO v3 object detector in Tensorflow. The full details are in [this paper](https://pjreddie.com/media/files/papers/YOLOv3.pdf).  In this project we cover several segments as follows:<br>
-- [x] [YOLO v3 architecture](https://github.com/YunYang1994/tensorflow-yolov3/blob/master/core/yolov3.py)
-- [x] [Training tensorflow-yolov3 with GIOU loss function](https://giou.stanford.edu/)
-- [x] Basic working demo
-- [x] Training pipeline
-- [x] Multi-scale training method
-- [x] Compute VOC mAP
-
-YOLO paper is quick hard to understand, along side that paper. This repo enables you to have a quick understanding of YOLO Algorithmn.
-
-
-## part 2. Quick start
-1. Clone this file
-```bashrc
-$ git clone https://github.com/YunYang1994/tensorflow-yolov3.git
-```
-2.  You are supposed  to install some dependencies before getting out hands with these codes.
-```bashrc
-$ cd tensorflow-yolov3
-$ pip install -r ./docs/requirements.txt
-```
-3. Exporting loaded COCO weights as TF checkpoint(`yolov3_coco.ckpt`)【[BaiduCloud](https://pan.baidu.com/s/11mwiUy8KotjUVQXqkGGPFQ&shfl=sharepset)】
-```bashrc
-$ cd checkpoint
-$ wget https://github.com/YunYang1994/tensorflow-yolov3/releases/download/v1.0/yolov3_coco.tar.gz
-$ tar -xvf yolov3_coco.tar.gz
-$ cd ..
-$ python convert_weight.py
-$ python freeze_graph.py
-```
-4. Then you will get some `.pb` files in the root path.,  and run the demo script
-```bashrc
-$ python image_demo.py
-$ python video_demo.py # if use camera, set video_path = 0
-```
-![image](./docs/images/611_result.jpg)
-## part 3. Train your own dataset
-Two files are required as follows:
-
-- [`dataset.txt`](https://raw.githubusercontent.com/YunYang1994/tensorflow-yolov3/master/data/dataset/voc_train.txt): 
-
-```
-xxx/xxx.jpg 18.19,6.32,424.13,421.83,20 323.86,2.65,640.0,421.94,20 
-xxx/xxx.jpg 48,240,195,371,11 8,12,352,498,14
-# image_path x_min, y_min, x_max, y_max, class_id  x_min, y_min ,..., class_id 
-# make sure that x_max < width and y_max < height
-```
-
-- [`class.names`](https://github.com/YunYang1994/tensorflow-yolov3/blob/master/data/classes/coco.names):
-
-```
-person
-bicycle
-car
-...
-toothbrush
-```
-
-### 3.1 Train VOC dataset
-To help you understand my training process, I made this demo of training VOC PASCAL dataset
-#### how to train it ?
-Download VOC PASCAL trainval  and test data
-```bashrc
-$ wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
-$ wget http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar
-$ wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
-```
-Extract all of these tars into one directory and rename them, which should have the following basic structure.
-
-```bashrc
-
-VOC           # path:  /home/yang/dataset/VOC
-├── test
-|    └──VOCdevkit
-|        └──VOC2007 (from VOCtest_06-Nov-2007.tar)
-└── train
-     └──VOCdevkit
-         └──VOC2007 (from VOCtrainval_06-Nov-2007.tar)
-         └──VOC2012 (from VOCtrainval_11-May-2012.tar)
-                     
-$ python scripts/voc_annotation.py --data_path /home/yang/test/VOC
-```
-Then edit your `./core/config.py` to make some necessary configurations
-
-```bashrc
-__C.YOLO.CLASSES                = "./data/classes/voc.names"
-__C.TRAIN.ANNOT_PATH            = "./data/dataset/voc_train.txt"
-__C.TEST.ANNOT_PATH             = "./data/dataset/voc_test.txt"
-```
-Here are two kinds of training method: 
-
-##### (1) train from scratch:
-
-```bashrc
-$ python train.py
-$ tensorboard --logdir ./data
-```
-##### (2) train from COCO weights(recommend):
-
-```bashrc
-$ cd checkpoint
-$ wget https://github.com/YunYang1994/tensorflow-yolov3/releases/download/v1.0/yolov3_coco.tar.gz
-$ tar -xvf yolov3_coco.tar.gz
-$ cd ..
-$ python convert_weight.py --train_from_coco
-$ python train.py
-```
-
-#### how to test and evaluate it ?
-```
-$ python evaluate.py
-$ cd mAP
-$ python main.py -na
-```
-if you are still unfamiliar with training pipline, you can join [here](https://github.com/YunYang1994/tensorflow-yolov3/issues/39) to discuss with us.
-
-### 3.2 Train other dataset
-Download COCO trainval  and test data
-```
-$ wget http://images.cocodataset.org/zips/train2017.zip
-$ wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
-$ wget http://images.cocodataset.org/zips/test2017.zip
-$ wget http://images.cocodataset.org/annotations/image_info_test2017.zip 
-```
-
-## part 4. Other Implementations
-
-[-**`YOLOv3目标检测有了TensorFlow实现，可用自己的数据来训练`**](https://mp.weixin.qq.com/s/cq7g1-4oFTftLbmKcpi_aQ)<br>
-
-[-**`Stronger-yolo`**](https://github.com/Stinky-Tofu/Stronger-yolo)<br>
-
-[- **`Implementing YOLO v3 in Tensorflow (TF-Slim)`**](https://itnext.io/implementing-yolo-v3-in-tensorflow-tf-slim-c3c55ff59dbe)
-
-[- **`YOLOv3_TensorFlow`**](https://github.com/wizyoung/YOLOv3_TensorFlow)
-
-[- **`Object Detection using YOLOv2 on Pascal VOC2012`**](https://fairyonice.github.io/Part_1_Object_Detection_with_Yolo_for_VOC_2014_data_anchor_box_clustering.html)
-
-[-**`Understanding YOLO`**](https://hackernoon.com/understanding-yolo-f5a74bbc7967)
-
+- 本方案线上baseline取得0.98336,作为YOLO v3这样的one-stage算法算是还可以，由于参数都是粗调预计最后结果还能有千分位的提升，欢迎各位尝试，有问题可以提issue。
+- 具体运行操作见YunYang的仓库：https://github.com/YunYang1994/tensorflow-yolov3
+### 提高精度
+- 这部分主要从**数据、先验框（anchor box）、模型**三方面入手改进。
+## 数据改进
+# 几何数据增强
+- 我们知道这次的训练数据只有250张，所以数据增强是一定要的，看了一下测试集之后觉得用普通的几何增强手段足以，具体用了随机水平翻转，随机裁剪，随机旋转这些方式就不多说了。
+# mix-up增强
+- 这里要提一点就是后期分析错误的时候发现了某些困难样本很难识别，尝试了mix-up增强的方法从数据入手改善，mix-up简单来说就是图片的加权和，可以看下图：
+![mix-up示意图](https://imgkr.cn-bj.ufileos.com/49da296e-069b-422c-b68f-68bdb2c90df5.png)
+- 但是在本场景使用mix-up后因为整个场景背景较为复杂，两个复杂图片的叠加使得很多有效信息得不到很好的表达，模型的表现没有得到提高
+# 填鸭式增强
+- 这个叫法是之前看各种kaggle大佬分享方案的时候看到的，具体的原理就是将一些目标（特别是后期分析检测效果差的）扣出来，放到没有目标的图上去，增加图像的鲁棒性。后面分析错误的时候我发现有一些在钢筋上的石头就被误判成钢筋，觉得使用填鸭式增强应该可以改善这个问题，但因为时间问题以及这个方法感觉太过手动就没有尝试，感觉应该是有效的。
+## 先验框(anchor box)改进
+- 我们知道YOLO是基于anchor box来预测偏移，那anchor box的size就很重要，我们先可视化一下钢筋框的长宽（归一化后）：
+![](https://upload-images.jianshu.io/upload_images/15713115-9c4011be12d7517c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+- 我们可以看到基本上是1:1，我们再看看YOLO v3的anchor box：
+> 10,13, 16,30, 33,23, 30,61, 62,45, 59,119, 116,90,  156,198,  373,326
+- 既有1:1也有1:2，但这是否意味着我们就不需要1:2？于是我一开始把他们稍微都改成1:1(手动)，发现一般的钢筋检测效果确实变好了，但是很多遮挡的钢筋（非1:1比例）检测效果就变差了，所以手动修改比例是不可行的。
+- 那如果我们使用kmeans来聚类生成我们的anchor box呢？我们来可视化一下（这里和原版一样也选择了9个聚类中心）：
+![聚类效果](https://upload-images.jianshu.io/upload_images/15713115-6fcc005c83d58f29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+- 感觉9个聚类确实有点强行，但是同时mean iou可以达到0.8793，实际上可能6个聚类中心甚至3个聚类中心就已经足够，但是在试验中发现使用聚类之后的anchor box效果却比原版在coco上聚类得到的anchor box效果要差，这里猜测跟muti_scale多尺度训练有关系，不过由于本来框的检测效果也不错，所以就放弃了修改anchor box的想法，如果有懂的朋友还希望指点一二。
+## 模型改进
+# FPN（feature pyramid networks）
+![FPN](https://upload-images.jianshu.io/upload_images/15713115-2eff817407aa4873.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+- 我们知道FPN（特征金字塔）可以通过特征图的跨层concat这样的操作，来使得每一层预测所用的feature map都融合了不同深度的语义特征，增强检测效果。在YOLO v3中只是使用相邻两层的特征层进行融合，我发现很多边缘的钢筋没有得到很好的检测，我的其中一个猜测是特征融合得不够好，所以我将52×52的预测分支（三个预测分支中对应检测小物体的分支）进行了特征大融合，手动将其改成3个预测分支的融合，试验后发现效果有提升，但是整体不稳定，在后面就把代码改回来了，但是后面发现那一次提交的结果就是最高的==
+- 这里还有一点就是在本场景下只是对多目标单类别的检测，作为仅有的一个类别钢筋并不具有很强的语义信息，所以我觉得可能并不需要像YOLO一样用那么深FPN，这里可以考虑把最深的FPN换成一个更浅的FPN进行融合，效果应该有提升。
+# 空洞卷积
+- 前面有提到很多处于图片较边缘的钢筋没有得到很好的检测，后面总结的时候觉得和从darknet输出的感受野(ROI)比较小有关，觉得可以在darknet最后一层加一个空洞卷积来扩大感受野，空洞卷积简单来说就是通过增加计算的范围来增加感受野，这个后面会写篇文章介绍，这个因为是比较后面想到的就没有尝试，读者感兴趣可以试试。
+![](https://upload-images.jianshu.io/upload_images/15713115-d9dbc86e7e6b6853.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+# 多尺度训练
+- 模型的训练我们采用多尺度图片输入进行训练，来使得模型具有尺度的鲁棒性，这里要提一点，如果是通过每次输入图片的时候来随机选择尺度方式输入（即YunYang代码中的方式）来多尺度训练，训练中的loss容易出现nan，为了避免这个问题可以在每个batch之间随机选择尺度而不是每个batch内来随机选择尺度。
+# 背景错检
+- 测试样本中出现了许多背景样本错捡的问题，我们自然而然会想到Focal loss，我们知道Focal loss有两个参数$\alpha \gamma$，其中$\gamma$固定为2不用调,主要是调整$\alpha$，但在试验中我发现无论怎么调这个参数，最后训练的时候虽然收敛的速度加快许多，但是检测的效果都没有变好，这和YOLO论文中作者说加了Focal loss不work一样，后面想了很久才明白：我们知道YOLO对物体的判断有三种：正例，负例和忽视，与ground truth的iou超过0.5就会被认为ignore，我们用YOLO v1的一张图来说明：
+![](https://upload-images.jianshu.io/upload_images/15713115-63b5837bb090ee31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+- 我们知道整个红色框都是这只狗，但在红色框内的网格并不都与这只狗的gound truth的IOU超过0.5，这就让一些本来应该忽视的样本变成了负例，加入了我们Focal Loss的“困难样本集”，造成了label noise，让使用了Focal loss之后模型的表现变差。要解决这一点很简单，将ignore的阈值从0.5调至0.1或0.2，表现马上就提升了。（减少了很多背景错捡，但因为阈值调低的原因多了很多框，这个可以通过后期对分数阈值的控制来消除，因为那些框基本都是低分框）
+# soft-nms
+- 很多人看到这次这么密集的目标检测肯定会想到使用soft-nms替代nms，这个在之前讲解YOLO v3的文章也有提到，具体来说就是不要直接删除所有IoU大于阈值的框，因为在密集物体的检测中会出现误删的情况，而是降低其置信度。
+- 我使用高斯加权方式的soft-nms替代普通的nms，但把其中的参数$\sigma$从0.1试0.7，效果都非常不好，我们具体来看效果图：
+![](https://upload-images.jianshu.io/upload_images/15713115-0989dfda0d062b5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+- 我们原本的预期是会多出很多框，然后我们可以通过置信度的方式筛选掉他们，但是结果确是一些非常高置信度周围的框就算使用最高的惩罚比例（即$\sigma$取到很大）他们被惩罚后的置信度仍然不算低，有些甚至还有0.6左右和本身低分但正确的框有同样的置信度，这让原本打算通过置信度来筛选框的办法失去意义，不知道是我使用方式有误还是怎么的，尝试过后就放弃了soft-nms。
+# 超参数调整
+1. **max_bbox_per_scale**：这个参数代表每个尺寸允许预测多少个box，初步估计每个图平均会有两百左右个Box，YunYang中只允许每个尺寸预测150个box，将这个参数适当调大后有万分位的提升，但参数过大之后性能反而降低，这个就自己衡量了。
+2. **score_threshold**:这个参数用于筛选低置信度的框，这里要注意的是不要每次都用肉眼判断效果，不要肉眼看到边缘错捡少了就效果好，还应该输出一下总检验框数，以这次的测试集为例，25300到25600之间才是一个正常范围。
+3. **iou_threshold**：这里即指的是nms中的iou_threshold也指ignore的阈值，要注意的事项和第二点一样，就不多赘述了。
+4. warmup学习率，迁移学习这些基本操作这里也不多说了，大家知道就行。

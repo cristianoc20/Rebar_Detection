@@ -15,9 +15,10 @@ import tensorflow as tf
 
 
 def convolutional(input_data, filters_shape, trainable, name, downsample=False, activate=True, bn=True):
-
+    """yolo_v3的基本组件：Conv+BN+leaky_relu"""
     with tf.variable_scope(name):
         if downsample:
+            """利用tf.pad()函数手动给feature map往外做填充"""
             pad_h, pad_w = (filters_shape[0] - 2) // 2 + 1, (filters_shape[1] - 2) // 2 + 1
             paddings = tf.constant([[0, 0], [pad_h, pad_h], [pad_w, pad_w], [0, 0]])
             input_data = tf.pad(input_data, paddings, 'CONSTANT')
@@ -47,7 +48,7 @@ def convolutional(input_data, filters_shape, trainable, name, downsample=False, 
 
 
 def residual_block(input_data, input_channel, filter_num1, filter_num2, trainable, name):
-
+    """借鉴Resnet的res_unit"""
     short_cut = input_data
 
     with tf.variable_scope(name):
@@ -63,7 +64,7 @@ def residual_block(input_data, input_channel, filter_num1, filter_num2, trainabl
 
 
 def route(name, previous_output, current_output):
-
+    """尺度拼接"""
     with tf.variable_scope(name):
         output = tf.concat([current_output, previous_output], axis=-1)
 
@@ -71,6 +72,11 @@ def route(name, previous_output, current_output):
 
 
 def upsample(input_data, name, method="deconv"):
+    """上采样操作
+    method:resize——使用最近邻插值方法进行上采样(不需要学习参数)
+           deconv——使用反卷积的方法进行上采样
+
+    """
     assert method in ["resize", "deconv"]
 
     if method == "resize":

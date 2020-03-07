@@ -20,10 +20,10 @@ from PIL import Image
 
 
 return_elements = ["input/input_data:0", "pred_sbbox/concat_2:0", "pred_mbbox/concat_2:0", "pred_lbbox/concat_2:0"]
-pb_file         = "./yolov3_coco.pb"
-video_path      = "./docs/images/road.mp4"
-# video_path      = 0
-num_classes     = 80
+pb_file         = "./yolov3_102_coco.pb"
+video_path      = "./F4CDD578.jpg"
+#video_path      = 0
+num_classes     = 1
 input_size      = 416
 graph           = tf.Graph()
 return_tensors  = utils.read_pb_return_tensors(graph, pb_file, return_elements)

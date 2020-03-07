@@ -16,6 +16,7 @@ import time
 import shutil
 import numpy as np
 import tensorflow as tf
+#tf.compat.v1.disable_eager_execution()
 import core.utils as utils
 from tqdm import tqdm
 from core.dataset import Dataset
@@ -31,6 +32,7 @@ class YoloTrain(object):
         self.learn_rate_init     = cfg.TRAIN.LEARN_RATE_INIT
         self.learn_rate_end      = cfg.TRAIN.LEARN_RATE_END
         self.first_stage_epochs  = cfg.TRAIN.FISRT_STAGE_EPOCHS
+        self.second_stage_epochs = cfg.TRAIN.SECOND_STAGE_EPOCHS
         self.second_stage_epochs = cfg.TRAIN.SECOND_STAGE_EPOCHS
         self.warmup_periods      = cfg.TRAIN.WARMUP_EPOCHS
         self.initial_weight      = cfg.TRAIN.INITIAL_WEIGHT
@@ -127,6 +129,7 @@ class YoloTrain(object):
         try:
             print('=> Restoring weights from: %s ... ' % self.initial_weight)
             self.loader.restore(self.sess, self.initial_weight)
+            print('load success')
         except:
             print('=> %s does not exist !!!' % self.initial_weight)
             print('=> Now it starts to train YOLOV3 from scratch ...')
@@ -177,7 +180,11 @@ class YoloTrain(object):
             log_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
             print("=> Epoch: %2d Time: %s Train loss: %.2f Test loss: %.2f Saving %s ..."
                             %(epoch, log_time, train_epoch_loss, test_epoch_loss, ckpt_file))
+            # if train_epoch_loss < 10:
             self.saver.save(self.sess, ckpt_file, global_step=epoch)
+
+
+
 
 
 
