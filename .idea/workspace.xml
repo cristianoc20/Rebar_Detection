@@ -2,27 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9574bdf6-2201-46d8-934d-15ad82e60d82" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/checkpoint/checkpoint" beforeDir="false" afterPath="$PROJECT_DIR$/checkpoint/checkpoint" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/common.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/yolov3.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/yolov3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/anchors/coco_anchors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/anchors/coco_anchors.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/classes/coco.names" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/dataset/voc_test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/dataset/voc_test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/dataset/voc_train.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/dataset/voc_train.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/images/611_result.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/images/road.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/images/road.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/freeze_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/freeze_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_demo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/voc_annotation.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/voc_annotation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/video_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/video_demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,7 +110,7 @@
         <entry file="file://$PROJECT_DIR$/image_resize.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="58">
-              <caret line="2" column="9" lean-forward="true" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+              <caret line="2" column="9" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -142,7 +122,7 @@
         <entry file="file://$PROJECT_DIR$/tool/data_convert.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="58">
-              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -514,12 +494,12 @@
       <workItem from="1583400591576" duration="4395000" />
       <workItem from="1583406386022" duration="2987000" />
       <workItem from="1583455871305" duration="12917000" />
-      <workItem from="1583571715808" duration="255000" />
+      <workItem from="1583571715808" duration="2939000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="394003000" />
+    <option name="totallyTimeSpent" value="396687000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -547,7 +527,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3294979" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.18410042" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.47907948" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.3294979" />
       <window_info anchor="bottom" id="File Transfer" order="13" weight="0.36924687" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -854,7 +834,7 @@
     <entry file="file://$PROJECT_DIR$/image_resize.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="58">
-          <caret line="2" column="9" lean-forward="true" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+          <caret line="2" column="9" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -874,7 +854,7 @@
     <entry file="file://$PROJECT_DIR$/tool/data_convert.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="58">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
         </state>
       </provider>
     </entry>
